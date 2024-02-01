@@ -35,6 +35,7 @@ ruby -run -e httpd . -p 8080
 - [ ] upload release
 - [ ] figure out how to get better errormessages in the console (which JS:Object)
 - [ ] Cast some values automatically to numbers
+- [ ] github website with example
 
 # references
 
