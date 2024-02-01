@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Ruby.wasm Quickstart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="browser.script.iife.js"></script>
+    <script type="text/ruby">
+      require "/bundle/setup"
+      require 'js'
+
+      # Create a canvas element
+      canvas = JS.global[:document].createElement("canvas")
+      
+      # Set canvas size
+      canvas[:width] = 400
+      canvas[:height] = 300
+      
+      # Append the canvas to the document body
+      JS.global[:document][:body].appendChild(canvas)
+      
+      # Get the 2D drawing context of the canvas
+      context = canvas.getContext("2d")
+      
+      # Set the fill style to a red color using RGB values and draw a rectangle
+      context[:fillStyle] = "rgb(200,0,0)"
+      context.fillRect(10, 10, 55, 50)
+      
+      # Drawing a green circle
+      context.beginPath() # Using the correct method call syntax
+      context.arc(160, 120, 60, 0, 2 * Math::PI)
+      context[:fillStyle] = "rgb(0, 128, 0)" # Set fill color to green
+      context.fill()
+      context[:lineWidth] = 4
+      context[:strokeStyle] = "rgb(0, 0, 255)" # Set stroke color to blue
+      context.stroke()
+      
+      # Adding a click event listener to draw on the canvas at click position
+      canvas.addEventListener("click") do |event|
+        # Calculate click position relative to the canvas
+        rect = canvas.getBoundingClientRect()
+        puts rect[:left].to_i
+        puts event[:clientX].to_i
+        x = event[:clientX].to_i - rect[:left].to_i
+        y = event[:clientY].to_i - rect[:top].to_i
+        
+        # Draw a small blue circle at the click position
+        context.beginPath() # Again, using the correct method call syntax
+        context.arc(x, y, 10, 0, 2 * Math::PI)
+        context[:fillStyle] = "rgb(0, 0, 255)" # Set fill color to blue
+        context.fill()
+      end
+      
+      
+  </script>
+    </head>
+    <body class="main">
+        <h3>
+          Test
+        </h3>
+    </body>
+</html>
