@@ -11,6 +11,9 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    kramdown (2.4.0)
+      rexml
+    rexml (3.2.6)
 
 PLATFORMS
   ruby
@@ -18,6 +21,7 @@ PLATFORMS
 
 DEPENDENCIES
   js!
+  kramdown (~> 2.4)
   ruby_wasm!
 
 BUNDLED WITH

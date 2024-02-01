@@ -19,7 +19,7 @@ cd ruby.wasm
 bundle exec rake compile
 rake install
 cd ..
-bundle exec rbwasm --log-level debug build --ruby-version 3.3 --target wasm32-unknown-wasi --build-profile full  -o ruby-app.wasm --save_temps
+bundle exec rbwasm --log-level debug build --ruby-version 3.3 --target wasm32-unknown-wasi --build-profile full  -o ruby-app.wasm
 ruby -run -e httpd . -p 8080
 ```
 

@@ -4,3 +4,4 @@ source "https://rubygems.org"
 
 gem "js", path: "ruby.wasm/packages/gems/js"
 gem "ruby_wasm", path: 'ruby.wasm/'
+gem "kramdown", "~> 2.4"
