@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Heartbeat Monitor Animation with Ruby.wasm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="browser.script.iife.js"></script>
+    <script type="text/ruby">
+        require 'js'
+
+        # Create a canvas element
+        canvas = JS.global[:document].createElement("canvas")
+
+        # Set canvas size
+        canvas[:width] = 800
+        canvas[:height] = 200
+
+        # Append the canvas to the document body
+        JS.global[:document][:body].appendChild(canvas)
+
+        # Get the 2D drawing context of the canvas
+        ctx = canvas.getContext("2d")
+
+        # Initialize parameters for the heartbeat line
+        @x = 0
+        @height = canvas.height / 2
+        @step = 4 # Change in x, speed of the line
+
+        def draw_heartbeat(ctx)
+          if @x >= ctx.canvas.width # ctx[:canvas][:width]
+            ctx.clearRect(0, 0, ctx[:canvas][:width], ctx[:canvas][:height])
+            @x = 0
+          end
+
+          # Draw the baseline
+          ctx.beginPath()
+          ctx.moveTo(@x, @height)
+          @x += @step
+
+          # Create a heartbeat effect
+          if rand < 0.1 # Random chance to create a spike
+            ctx.lineTo(@x, @height - 50) # Up
+            @x += @step
+            ctx.lineTo(@x, @height + 50) # Down
+            @x += @step
+          end
+
+          ctx.lineTo(@x, @height) # Back to baseline
+          ctx[:strokeStyle] = "red"
+          ctx.stroke()
+        end
+
+        # Update the heartbeat animation every 20 milliseconds
+        JS.global.setInterval(lambda { draw_heartbeat(ctx) }, 20)
+    </script>
+</head>
+<body>
+    <h3>Heartbeat Monitor Animation</h3>
+</body>
+</html>
