@@ -8,53 +8,66 @@
     <style>
         #output {
             white-space: pre-wrap;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <h1>Code Runner</h1>
     <textarea id="ruby-code" rows="10" cols="50">
-require 'js'
-require 'kramdown'
-
-div = JS.global[:document].createElement("div")
-text = <<MARKDOWN
-# This is markdown
-This is parsed markdown
-
-## Second heading
-MARKDOWN
-
-div[:innerHTML] = Kramdown::Document.new(text).to_html
-JS.global[:document][:body].appendChild(div)
+document = JS.global.document
+div = document.createElement("div")
+div.innerHTML = "Hello World!"
+document.body.appendChild(div)
     </textarea><br>
     <button id="run-code">Run Code</button>
     <div id="output"></div>
 
     <!-- Ruby.wasm and your script -->
-    <script type="text/ruby">
+    <script type="text/ruby" data-eval="async">
       require 'js'
+
+      require 'js/require_remote'
+
+      module Kernel
+        alias original_require_relative require_relative
   
-      # Access DOM elements
-      code_area = JS.global[:document].getElementById("ruby-code")
-      run_button = JS.global[:document].getElementById("run-code")
-      output_div = JS.global[:document].getElementById("output")
+        # The require_relative may be used in the embedded Gem.
+        # First try to load from the built-in filesystem, and if that fails,
+        # load from the URL.
+        def require_relative(path)
+          caller_path = caller_locations(1, 1).first.absolute_path || ''
+          dir = File.dirname(caller_path)
+          file = File.absolute_path(path, dir)
   
-      # Function to execute Ruby code
-      def execute_ruby_code(code_area, output_div)
-          begin
-              output = eval(code_area[:value].to_s)
-              output_div[:innerText] = output.inspect
-          rescue => e
-              output_div[:innerText] = "Error: #{e.message}"
-          end
-      end
-  
-      # Event listener for the button
-      run_button.addEventListener("click") do
-          execute_ruby_code(code_area, output_div)
+          original_require_relative(file)
+        rescue LoadError
+          JS::RequireRemote.instance.load(path)
+        end
       end
   </script>
   
+  <script async>
+    window.addEventListener('load', async function () {
+        document.getElementById("run-code").addEventListener("click", async (e) => {
+            var code_area = document.getElementById("ruby-code");
+            var output_div = document.getElementById("output");
+            var code = `
+                $response = ""
+                def puts(text=nil)
+                    $response += text.to_s + "\n"
+                end
+                ${code_area.value}
+                $response
+            `.trim()
+            const text = window.rubyVM.evalAsync(code).then((response) => {
+                output_div.innerHTML = response.toString();
+            }).catch((response) => {
+                output_div.innerHTML = response.toString();
+
+            });
+        });
+    });
+  </script>
 </body>
 </html>
