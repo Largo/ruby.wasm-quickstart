@@ -13,7 +13,21 @@
 </head>
 <body>
     <h1>Code Runner</h1>
-    <textarea id="ruby-code" rows="10" cols="50">'Hello, Ruby!'</textarea><br>
+    <textarea id="ruby-code" rows="10" cols="50">
+require 'js'
+require 'kramdown'
+
+div = JS.global[:document].createElement("div")
+text = <<MARKDOWN
+# This is markdown
+This is parsed markdown
+
+## Second heading
+MARKDOWN
+
+div[:innerHTML] = Kramdown::Document.new(text).to_html
+JS.global[:document][:body].appendChild(div)
+    </textarea><br>
     <button id="run-code">Run Code</button>
     <div id="output"></div>
 
