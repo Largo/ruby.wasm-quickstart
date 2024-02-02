@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="browser.script.iife.js"></script>
     <script type="text/ruby">
-        require 'js'
-        div = JS.global[:document].createElement("div")
-
-        div[:innerHTML] = Kramdown::Document.new(text).to_html
-        JS.global[:document][:body].appendChild(div)
-        
+        require 'js'        
         # Create a canvas element
         canvas = JS.global[:document].createElement("canvas")
 
