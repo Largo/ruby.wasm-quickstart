@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby IRB in Browser</title>
+    <script src="browser.script.iife.js"></script>
+    <style>
+        #output {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Runner</h1>
+    <textarea id="ruby-code" rows="10" cols="50">'Hello, Ruby!'</textarea><br>
+    <button id="run-code">Run Code</button>
+    <div id="output"></div>
+
+    <!-- Ruby.wasm and your script -->
+    <script type="text/ruby">
+      require 'js'
+  
+      # Access DOM elements
+      code_area = JS.global[:document].getElementById("ruby-code")
+      run_button = JS.global[:document].getElementById("run-code")
+      output_div = JS.global[:document].getElementById("output")
+  
+      # Function to execute Ruby code
+      def execute_ruby_code(code_area, output_div)
+          begin
+              output = eval(code_area[:value].to_s)
+              output_div[:innerText] = output.inspect
+          rescue => e
+              output_div[:innerText] = "Error: #{e.message}"
+          end
+      end
+  
+      # Event listener for the button
+      run_button.addEventListener("click") do
+          execute_ruby_code(code_area, output_div)
+      end
+  </script>
+  
+</body>
+</html>
