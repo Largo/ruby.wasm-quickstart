@@ -7,23 +7,11 @@
     <script src="browser.script.iife.js"></script>
     <script type="text/ruby">
         require 'js'
-
-
         div = JS.global[:document].createElement("div")
-
-        require 'kramdown'
-
-        text = <<MARKDOWN
-# Hello
-    test test test
-
-# yoloyoo
-MARKDOWN
 
         div[:innerHTML] = Kramdown::Document.new(text).to_html
         JS.global[:document][:body].appendChild(div)
-
-
+        
         # Create a canvas element
         canvas = JS.global[:document].createElement("canvas")
 
@@ -32,7 +20,7 @@ MARKDOWN
         canvas[:height] = 300
 
         # Append the canvas to the document body
-    #    JS.global[:document][:body].appendChild(canvas)
+       JS.global[:document][:body].appendChild(canvas)
 
         # Get the 2D drawing context of the canvas
         context = canvas.getContext("2d")
