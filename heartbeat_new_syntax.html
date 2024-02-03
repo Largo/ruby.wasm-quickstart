@@ -9,14 +9,15 @@
         require 'js'
 
         # Create a canvas element
-        canvas = JS.global[:document].createElement("canvas")
+        document = JS.global
+        canvas = document.createElement("canvas")
 
         # Set canvas size
-        canvas[:width] = 800
-        canvas[:height] = 200
+        canvas.width = 800
+        canvas.height = 200
 
         # Append the canvas to the document body
-        JS.global[:document][:body].appendChild(canvas)
+        document.body.appendChild(canvas)
 
         # Get the 2D drawing context of the canvas
         ctx = canvas.getContext("2d")
@@ -27,8 +28,9 @@
         @step = 4 # Change in x, speed of the line
 
         def draw_heartbeat(ctx)
-          if @x >= ctx.canvas.width # ctx[:canvas][:width]
-            ctx.clearRect(0, 0, ctx[:canvas][:width], ctx[:canvas][:height])
+          canvas = ctx.canvas
+          if @x >= canvas.width
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
             @x = 0
           end
 
@@ -46,7 +48,7 @@
           end
 
           ctx.lineTo(@x, @height) # Back to baseline
-          ctx[:strokeStyle] = "red"
+          ctx.strokeStyle = "red"
           ctx.stroke()
         end
 
