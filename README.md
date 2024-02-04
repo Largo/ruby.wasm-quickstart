@@ -13,18 +13,16 @@ you will need
 ```shell
 git clone --recurse-submodules -j8 https://github.com/Largo/ruby.wasm-quickstart.git
 cd ruby.wasm-quickstart
-cd ruby.wasm
-./bin/setup
-# Compile extension library
-bundle exec rake compile
-rake install
-cd ..
-bundle exec rbwasm --log-level debug build --ruby-version 3.3 --target wasm32-unknown-wasi --build-profile full  -o ruby-app.wasm
+./build.sh
 ruby -run -e httpd . -p 8080
 ```
 
-# notices
-- If you want to add something to your gemfile, you will need to recompile the wasm file (1 second)
+# Notices
+- If you want to add something to your gemfile, you will need to recompile the wasm file (1 second).
+- You can add ruby files into ruby-app.wasm by changing the command. for instance a src directory. 
+-  bundle exec rbwasm --dir ./src::/src --log-level debug build --ruby-version 3.3 --target wasm32-unknown-wasi --build-profile full  -o ruby-app.wasm 
+-  If you want to load ruby files via the network, use run-code.html as a template. You can add require_relative after the module block to load any files. I will provide a simpler example later.
+- see releases for prebuilt ruby-app.wasm
 
 # todo
 - [ ] explain how to add  code outside gems to the image
@@ -37,8 +35,10 @@ ruby -run -e httpd . -p 8080
 - [ ] Cast some values automatically to numbers
 - [ ] github website with example
 
-# references
+## Example
+- [Ruby Code Runner in Browser](https://largo.github.io/ruby-web/run-code.html)
 
+## references
 - [ruby.wasm](https://github.com/ruby/ruby.wasm)
 - [Based on work by Yuta Saito et al](https://github.com/kateinoigakukun)
 - [See: Support RubyGems / Bundler #358 ](https://github.com/ruby/ruby.wasm/pull/358)
