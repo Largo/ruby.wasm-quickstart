@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="browser.script.iife.js"></script>
+
+    <title>Shopping List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .shopping-list {
+            list-style: none;
+            padding: 0;
+        }
+        .shopping-list li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .shopping-list input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .shopping-list label {
+            flex-grow: 1;
+        }
+        .edit-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shopping List</h2>
+    <input type="text" id="new-item" placeholder="Add new item" />
+    <button id="add-item">Add</button>
+    <ul class="shopping-list" id="shopping-list"></ul>
+
+    <script type="text/ruby" data-eval="async">
+        @document = JS.global.document
+        @list = @document.getElementById("shopping-list")
+        @input = @document.getElementById("new-item")
+        @button = @document.getElementById("add-item")
+
+        def add_item(name)
+          return if name.strip.empty?
+          li = @document.createElement("li")
+          checkbox = @document.createElement("input")
+          checkbox.type = "checkbox"
+          label = @document.createElement("label")
+          label.innerText = name
+          label.addEventListener("click") { |e| enable_editing(e.target) }
+          li.appendChild(checkbox)
+          li.appendChild(label)
+          input = @document.createElement("input")
+          input.type = "text"
+          input.className = "edit-input"
+          input.addEventListener("blur") { |e| update_item(e.target) }
+          input.addEventListener("keypress") do |e|
+            e.target.blur if e.key == "Enter"
+          end
+          li.appendChild(input)
+          @list.appendChild(li)
+          @input.value = ""
+        end
+
+        def enable_editing(label)
+          input = label.nextSibling
+          input.value = label.innerText
+          label.style.display = "none"
+          input.style.display = "block"
+          input.focus
+        end
+
+        def update_item(input)
+          label = input.previousSibling
+          label.innerText = input.value.strip.empty? ? label.innerText : input.value
+          label.style.display = "block"
+          input.style.display = "none"
+        end
+
+        @button.addEventListener("click") { add_item(@input.value) }
+        @input.addEventListener("keypress") do |e|
+          add_item(@input.value) if e.key == "Enter"
+        end
+    </script>
+</body>
+</html>
