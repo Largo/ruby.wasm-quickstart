@@ -44,6 +44,11 @@ ruby -run -e httpd . -p 8080
 - [See: Support RubyGems / Bundler #358 ](https://github.com/ruby/ruby.wasm/pull/358)
 - [JS Gem](https://github.com/ruby/ruby.wasm/tree/main/packages/gems/js)
 - [JavaScript Files](https://github.com/ruby/ruby.wasm/tree/main/packages/npm-packages/ruby-3.3-wasm-wasi)
+- [ruby.wasmでブラウザを酷使してみよう / 2023-MatsueRubyKaigi - Speaker Deck](https://speakerdeck.com/lnit/ruby-wasm-2023-matsuerubykaigi?slide=66)
+- [ブラウザでRubyを動かす夢 - まめめも](https://mametter.hatenablog.com/entry/2024/02/01/105413)
+- [ruby.wasmでrequire_relativeを使えるようにしたい #Ruby - Qiita](https://qiita.com/ledsun/items/3f8ba1ee2699d546c18c#fetch%E3%81%8C%E9%9D%9E%E5%90%8C%E6%9C%9F%E9%96%A2%E6%95%B0)
+- [RubyでWebAssemblyを試してみよう #ruby #WebAssembly #WASM #WASI - クリエーションライン株式会社](https://www.creationline.com/tech-blog/60328)
+- [how_to_use_bundler_and_rubygems_on_wasm.md](https://gist.github.com/kateinoigakukun/5caf3b83b2732b1653e91b0e75ce3390)
 - see contributing.md in ruby.wasm repo
 
 ## GPT to convert JavaScript to Ruby code:
