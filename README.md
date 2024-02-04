@@ -11,7 +11,7 @@ you will need
 - cargo
 
 ```shell
-git clone --recurse-submodules -j8 git://github.com/largo/ruby.wasm-quickstart.git
+git clone --recurse-submodules -j8 https://github.com/Largo/ruby.wasm.git
 cd ruby.wasm-quickstart
 cd ruby.wasm
 ./bin/setup
