@@ -46,6 +46,9 @@ ruby -run -e httpd . -p 8080
 ## References
 - [ruby.wasm](https://github.com/ruby/ruby.wasm)
 - [Based on work by Yuta Saito et al](https://github.com/kateinoigakukun)
+- [emirb - irb on ruby-wasm-emscripten + xterm-pty](https://mame.github.io/emirb/?utm_source=shortruby&ref=shortruby.com)
+- [irb.wasm](https://irb-wasm.vercel.app/)
+- [Largo/irb.wasm: IRB on browser powered by WebAssembly Browser + new JS Gem](https://github.com/Largo/irb.wasm)
 - [See: Support RubyGems / Bundler #358 ](https://github.com/ruby/ruby.wasm/pull/358)
 - [JS Gem](https://github.com/ruby/ruby.wasm/tree/main/packages/gems/js)
 - [JavaScript Files](https://github.com/ruby/ruby.wasm/tree/main/packages/npm-packages/ruby-3.3-wasm-wasi)
