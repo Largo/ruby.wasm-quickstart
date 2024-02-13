@@ -8,8 +8,11 @@
     <title>Shopping List</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+          font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+          background-color: #f5f5f5;
+          color: #333;
+          padding: 20px;
+          font-size: 1.4rem;
         }
         .shopping-list {
             list-style: none;
@@ -21,33 +24,63 @@
             align-items: center;
         }
         .shopping-list input[type="checkbox"] {
-            margin-right: 10px;
+            margin-right: 20px;
+            transform : scale(2);
+
         }
         .shopping-list label {
             flex-grow: 1;
+            cursor: pointer;
         }
         .edit-input {
             display: none;
+        }
+
+        .shopping-list li {
+          border-bottom: solid;
+          padding-bottom: 10px;
+          min-height: 40px;
+        }
+
+        :checked ~ label {
+          text-decoration: line-through;
         }
     </style>
 </head>
 <body>
     <h2>Shopping List</h2>
+    <p>With autosave and in-place edit</p>
     <input type="text" id="new-item" placeholder="Add new item" />
     <button id="add-item">Add</button>
     <ul class="shopping-list" id="shopping-list"></ul>
 
     <script type="text/ruby" data-eval="async">
+        require "json"
         @document = JS.global.document
         @list = @document.getElementById("shopping-list")
         @input = @document.getElementById("new-item")
         @button = @document.getElementById("add-item")
+        @storage = JS.global.localStorage
 
-        def add_item(name)
-          return if name.strip.empty?
+        def getItems()
+          @storage.getItem("shoppingItems")
+        end
+        def updateStorage()
+          items = []
+            @document.getElementById("shopping-list").querySelectorAll("li").to_a.each do |item|
+            label = item.querySelector("label").innerText
+            isChecked = item.querySelector("[type=checkbox]").checked
+            items.push({label:, isChecked:})
+          end
+          @storage.setItem("shoppingItems", JSON.generate(items))
+        end
+
+        def add_item(name, checked=false, shouldUpdateStorage=true)
+          return if name.nil? || name&.strip&.empty?
           li = @document.createElement("li")
           checkbox = @document.createElement("input")
           checkbox.type = "checkbox"
+          checkbox.checked = checked
           label = @document.createElement("label")
           label.innerText = name
           label.addEventListener("click") { |e| enable_editing(e.target) }
@@ -63,6 +96,7 @@
           li.appendChild(input)
           @list.appendChild(li)
           @input.value = ""
+          updateStorage if shouldUpdateStorage
         end
 
         def enable_editing(label)
@@ -78,11 +112,21 @@
           label.innerText = input.value.strip.empty? ? label.innerText : input.value
           label.style.display = "block"
           input.style.display = "none"
+          updateStorage()
         end
 
         @button.addEventListener("click") { add_item(@input.value) }
         @input.addEventListener("keypress") do |e|
           add_item(@input.value) if e.key == "Enter"
+        end
+        @list.addEventListener("change") do |e|
+        updateStorage
+        end
+        
+
+        JSON.parse(getItems || "[]")&.to_a.each do |item|
+          p item
+          add_item(item["label"], item["isChecked"], false)
         end
     </script>
 </body>

@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruby IRB in Browser</title>
+    <title>Run Ruby code in the browser</title>
     <script src="browser.script.iife.js"></script>
+    <link rel="stylesheet" href="assets/codemirror.css">
+    <script src="assets/codemirror.js"></script>
+    <script src="assets/codemirror-ruby.js"></script>
     <style>
         #output {
             white-space: pre-wrap;
@@ -23,51 +26,6 @@ document.body.appendChild(div)
     <button id="run-code">Run Code</button>
     <div id="output"></div>
 
-    <!-- Ruby.wasm and your script -->
-    <script type="text/ruby" data-eval="async">
-      require 'js'
-
-      require 'js/require_remote'
-
-      module Kernel
-        alias original_require_relative require_relative
-  
-        # The require_relative may be used in the embedded Gem.
-        # First try to load from the built-in filesystem, and if that fails,
-        # load from the URL.
-        def require_relative(path)
-          caller_path = caller_locations(1, 1).first.absolute_path || ''
-          dir = File.dirname(caller_path)
-          file = File.absolute_path(path, dir)
-  
-          original_require_relative(file)
-        rescue LoadError
-          JS::RequireRemote.instance.load(path)
-        end
-      end
-  </script>
-  
-  <script async>
-    window.addEventListener('load', async function () {
-        document.getElementById("run-code").addEventListener("click", async (e) => {
-            var code_area = document.getElementById("ruby-code");
-            var output_div = document.getElementById("output");
-            var code = `
-                $response = ""
-                def puts(text=nil)
-                    $response += text.to_s + "\n"
-                end
-                ${code_area.value}
-                $response
-            `.trim()
-            const text = window.rubyVM.evalAsync(code).then((response) => {
-                output_div.innerHTML = response.toString();
-            }).catch((response) => {
-                output_div.innerHTML = response.toString();
-
-            });
-        });
-    });
-  </script>
+  <script type="text/ruby" src="runCode.rb" data-eval="async"></script>
 </body>
 </html>

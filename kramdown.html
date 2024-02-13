@@ -9,7 +9,7 @@
         require 'js'
         require 'kramdown'
 
-        div = JS.global[:document].createElement("div")
+        div = JS.global.document.createElement("div")
         text = <<MARKDOWN
 # This is markdown
 This is parsed markdown
@@ -17,8 +17,8 @@ This is parsed markdown
 ## Second heading
 MARKDOWN
 
-        div[:innerHTML] = Kramdown::Document.new(text).to_html
-        JS.global[:document][:body].appendChild(div)
+        div.innerHTML = Kramdown::Document.new(text).to_html
+        JS.global.document.body.appendChild(div)
   </script>
     </head>
     <body class="main">
