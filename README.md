@@ -3,7 +3,9 @@
 
 This is a standalone version with all the extra files that are necessary to run ruby.wasm with javascript browser support. In the current ruby.wasm repository the files are available, but it is not obvious that the js gem is not included in ruby-3.3-wasm32-unknown-wasi-full.tar.gz.
 
-# how to build (with compiling)
+##
+
+## how to build (with compiling)
 
 you will need
 - gcc and others 
@@ -16,29 +18,31 @@ cd ruby.wasm-quickstart
 ./build.sh
 ruby -run -e httpd . -p 8080
 ```
+## Example
+- [Demo Page](https://largo.github.io/ruby.wasm-quickstart) [index.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/index.html)
+- [Ruby Code Runner in Browser](https://largo.github.io/ruby.wasm-quickstart/run-code.html) [run-code.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/run-code.html) [runCode.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/runCode.rb)
+- [Including Ruby files via require_relative](https://largo.github.io/ruby.wasm-quickstart/require.html) [require.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require.html) [main.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require/main.rb) [second.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require/second.rb)
 
-# Notices
+## Notices
 - If you want to add something to your gemfile, you will need to recompile the wasm file (1 second).
 - You can add ruby files into ruby-app.wasm by changing the command. for instance a src directory. 
 -  bundle exec rbwasm --dir ./src::/src --log-level debug build --ruby-version 3.3 --target wasm32-unknown-wasi --build-profile full  -o ruby-app.wasm 
 -  If you want to load ruby files via the network, use run-code.html as a template. You can add require_relative after the module block to load any files. I will provide a simpler example later.
 - see releases for prebuilt ruby-app.wasm
 
-# todo
-- [ ] explain how to add  code outside gems to the image
+## Todo
+- [x] explain how to add  code outside gems to the image
 - [ ] show how to shrink/compress the ruby.wasm file (currently 51MB with debug info, but can be about 10mb or less.)
 - [ ] license + explanation
 - [ ] ask upstream if they can make a javascript file that doesnt have the .wasm file path hardcoded. 
 - [ ] docker file
-- [ ] upload release
-- [ ] figure out how to get better errormessages in the console (which JS:Object)
-- [ ] Cast some values automatically to numbers
-- [ ] github website with example
+- [x] upload release
+- [x] figure out how to get better errormessages in the console (which JS:Object)
+- [x] Cast some values automatically to numbers
+- [x] github website with example
 
-## Example
-- [Ruby Code Runner in Browser](https://largo.github.io/ruby-web/run-code.html)
 
-## references
+## References
 - [ruby.wasm](https://github.com/ruby/ruby.wasm)
 - [Based on work by Yuta Saito et al](https://github.com/kateinoigakukun)
 - [See: Support RubyGems / Bundler #358 ](https://github.com/ruby/ruby.wasm/pull/358)
