@@ -33,7 +33,7 @@ ruby -run -e httpd . -p 8080
 
 ## Todo
 - [x] explain how to add  code outside gems to the image
-- [ ] show how to shrink/compress the ruby.wasm file (currently 51MB with debug info, but can be about 10mb or less.)
+- [X] ~~show how to shrink/compress the ruby.wasm file (currently 51MB with debug info, but can be about 10mb or less.)~~
 - [ ] license + explanation
 - [ ] ask upstream if they can make a javascript file that doesnt have the .wasm file path hardcoded. 
 - [ ] docker file
@@ -54,6 +54,7 @@ ruby -run -e httpd . -p 8080
 - [ruby.wasmでrequire_relativeを使えるようにしたい #Ruby - Qiita](https://qiita.com/ledsun/items/3f8ba1ee2699d546c18c#fetch%E3%81%8C%E9%9D%9E%E5%90%8C%E6%9C%9F%E9%96%A2%E6%95%B0)
 - [RubyでWebAssemblyを試してみよう #ruby #WebAssembly #WASM #WASI - クリエーションライン株式会社](https://www.creationline.com/tech-blog/60328)
 - [how_to_use_bundler_and_rubygems_on_wasm.md](https://gist.github.com/kateinoigakukun/5caf3b83b2732b1653e91b0e75ce3390)
+- [TODO: Shrinking .wasm Size](https://rustwasm.github.io/docs/book/reference/code-size.html)
 - see contributing.md in ruby.wasm repo
 
 ## GPT to convert JavaScript to Ruby code:

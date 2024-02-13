@@ -2100,8 +2100,7 @@ SOFTWARE.
        * an array of strings starting with the Ruby program name.
        */
       initialize(args = ["ruby.wasm", "-EUTF-8", "-e_=0"]) {
-          console.log("tests");
-            const c_args = args.map((arg) => arg + "\0");
+        const c_args = args.map((arg) => arg + "\0");
           this.guest.rubyInit();
           this.guest.rubySysinit(c_args);
           this.guest.rubyOptions(c_args);
