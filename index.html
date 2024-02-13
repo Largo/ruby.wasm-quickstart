@@ -21,14 +21,34 @@
             margin: 20px;
         }
 
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: #09f;
+            animation: spin 1s ease infinite;
+          }
+        
+          @keyframes spin {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
     </style>
 </head>
 <body>
     <h1>Ruby.wasm Quickstart</h1>
+    <div id="spinner" class="spinner"></div>
     <script type="text/ruby" data-eval="async">
         require 'kramdown'
         $window = JS.global
         $d = $window.document
+
+        $d.getElementById("spinner").style.display = "none"
 
         $d.createElement("h2").tap {|e|
             e.innerText = "Examples"
@@ -39,7 +59,7 @@
             div.classList.add("examples")
             $d.body.appendChild(div)
         }
-        examples = %w(heartbeat canvas kramdown require run-code shoppingList)
+        examples = %w(run-code shoppingList require canvas heartbeat kramdown)
         examples.each do |example|
             $d.createElement("a").tap {|link|
                 link.href = "#{example}.html"
@@ -61,7 +81,6 @@
                 $d.body.appendChild(e)
             }
         end
-
     </script>
 </body>
 </html>

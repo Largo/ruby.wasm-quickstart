@@ -7,6 +7,8 @@ code_area = JS.global.document.getElementById("ruby-code")
   indentUnit: 4
 })
 
+JS.global.document.getElementById("spinner").style.display = "none"
+
 define_method :click_run_button do
   code_area = JS.global.document.getElementById("ruby-code")
   @window.editor.save
