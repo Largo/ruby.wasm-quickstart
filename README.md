@@ -1,9 +1,13 @@
 # Ruby.wasm quickstart - WASI GEM Example
 ## for the rest of us
 
-This is a standalone version with all the extra files that are necessary to run ruby.wasm with javascript browser support. In the current ruby.wasm repository the files are available, but it is not obvious that the js gem is not included in ruby-3.3-wasm32-unknown-wasi-full.tar.gz.
+Ruby.wasm lets you run the Ruby Programming Language in the Browser using Webassembly.
+This projects makes it easier to get started with a wasm binary that included the Javascript bridge. You can also add your own gems from Rubygems into the webassembly file or use ruby code files on your website. 
 
-##
+## Example
+- [Demo Page](https://largo.github.io/ruby.wasm-quickstart) [index.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/index.html)
+- [Ruby Code Runner in Browser](https://largo.github.io/ruby.wasm-quickstart/run-code.html) [run-code.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/run-code.html) [runCode.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/runCode.rb)
+- [Including Ruby files via require_relative](https://largo.github.io/ruby.wasm-quickstart/require.html) [require.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require.html) [main.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require/main.rb) [second.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require/second.rb)
 
 ## how to build (with compiling)
 
@@ -18,10 +22,6 @@ cd ruby.wasm-quickstart
 ./build.sh
 ruby -run -e httpd . -p 8080
 ```
-## Example
-- [Demo Page](https://largo.github.io/ruby.wasm-quickstart) [index.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/index.html)
-- [Ruby Code Runner in Browser](https://largo.github.io/ruby.wasm-quickstart/run-code.html) [run-code.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/run-code.html) [runCode.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/runCode.rb)
-- [Including Ruby files via require_relative](https://largo.github.io/ruby.wasm-quickstart/require.html) [require.html](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require.html) [main.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require/main.rb) [second.rb](https://github.com/Largo/ruby.wasm-quickstart/blob/main/require/second.rb)
 
 ## Notices
 - If you want to add something to your gemfile, you will need to recompile the wasm file (1 second).
