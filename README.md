@@ -1,5 +1,6 @@
 # Ruby.wasm quickstart - WASI GEM Example
-## for the rest of us
+
+## For the rest of us
 
 Ruby.wasm lets you run the Ruby Programming Language in the Browser using Webassembly.
 This projects makes it easier to get started with a wasm binary that included the Javascript bridge. You can also add your own gems from Rubygems into the webassembly file or use ruby code files on your website. 

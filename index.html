@@ -10,8 +10,12 @@
             background: #212121;
             font-size: 30px;
             color: whitesmoke;
+            padding: 20px;
         }
-        a, a:link, a:visited {
+        a, a:link,  a:visited {
+            color: #FF0000;
+        }
+        .examples a, .examples a:link, .examples a:visited {
             display: block;
             color: #FF0000;
             margin: 20px;
@@ -22,15 +26,42 @@
 <body>
     <h1>Ruby.wasm Quickstart</h1>
     <script type="text/ruby" data-eval="async">
+        require 'kramdown'
         $window = JS.global
         $d = $window.document
+
+        $d.createElement("h2").tap {|e|
+            e.innerText = "Examples"
+            $d.body.appendChild(e)
+        }
+
+        examplesDiv = $d.createElement("div").tap {|div|
+            div.classList.add("examples")
+            $d.body.appendChild(div)
+        }
         examples = %w(heartbeat canvas kramdown require run-code shoppingList)
         examples.each do |example|
-            link = $d.createElement("a")
-            link.href = "#{example}.html"
-            link.innerText = example
-            $d.body.appendChild(link)
+            $d.createElement("a").tap {|link|
+                link.href = "#{example}.html"
+                link.innerText = example
+                examplesDiv.appendChild(link)    
+            }
         end
+       
+        readmeUrl = "README.md"
+        response = JS.global.fetch(readmeUrl).await
+        if response.status.to_i == 200
+            readmeMarkdown = response.text.await.to_s
+        end
+
+        if readmeMarkdown
+            $d.createElement("div").tap {|e|
+                e.classList.add("explanation")
+                e.innerHTML = Kramdown::Document.new(readmeMarkdown).to_html
+                $d.body.appendChild(e)
+            }
+        end
+
     </script>
 </body>
 </html>
