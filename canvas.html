@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Ruby.wasm Quickstart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="browser.script.iife.js"></script>
+    <script type="text/ruby">
+        require 'js'        
+        # Create a canvas element
+        canvas = JS.global[:document].createElement("canvas")
+
+        # Set canvas size
+        canvas[:width] = 400
+        canvas[:height] = 300
+
+        # Append the canvas to the document body
+       JS.global[:document][:body].appendChild(canvas)
+
+        # Get the 2D drawing context of the canvas
+        context = canvas.getContext("2d")
+
+        def drawFace(context)
+        # Draw a yellow circle for the face
+        context.beginPath()
+        context.arc(200, 150, 100, 0, 2 * Math::PI)
+        context[:fillStyle] = "yellow"
+        context.fill()
+
+        # Draw the eyes
+        context.beginPath()
+        context.arc(150, 100, 15, 0, 2 * Math::PI)
+        context.arc(250, 100, 15, 0, 2 * Math::PI)
+        context[:fillStyle] = "black"
+        context.fill()
+        end
+
+        # Function to draw a smiley with a frown
+        def drawFrown(context)
+        drawFace(context)
+
+        # Draw the frown
+        context.beginPath()
+        context.arc(200, 180, 60, Math::PI, 2 * Math::PI)
+        context[:lineWidth] = 5
+        context[:strokeStyle] = "black"
+        context.stroke()
+        end
+
+        # Function to draw a smiley with a smile
+        def drawSmile(context)
+            drawFace(context)
+
+            # Draw the smile
+            context.beginPath()
+            context.arc(200, 180, 60, 0, Math::PI)
+            context[:lineWidth] = 5
+            context[:strokeStyle] = "black"
+            context.stroke()
+        end
+
+        # Initialize smile state
+        @smile = true
+
+        # Function to toggle smile/frown state and redraw
+        def toggleSmile(context)
+        if @smile
+            context.clearRect(0, 0, context[:canvas][:width], context[:canvas][:height])
+            drawFrown(context)
+        else
+            context.clearRect(0, 0, context[:canvas][:width], context[:canvas][:height])
+            drawSmile(context)
+        end
+        @smile = !@smile
+        end
+
+        # Initially draw a smiley with a smile
+        drawSmile(context)
+
+        # Toggle smile/frown every 1 second
+        JS.global.setInterval(lambda { toggleSmile(context) }, 1000)
+  </script>
+    </head>
+    <body class="main">
+        <h3>
+          We are loading...
+        </h3>
+    </body>
+</html>
