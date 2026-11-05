@@ -1,10 +1,17 @@
-require "js"
-# Makes require_relative fetch .rb files from the web server
-# (resolved relative to the HTML page that loads ruby.wasm).
-require "js/require_remote/relative_shim"
+require 'js'
+require "/gems/setup"
+require "jsg"
+require 'js/require_remote'
 
-require_relative "require/second"
+module Kernel
+    alias original_require_relative require_relative
+    def require_relative(path)
+        JS::RequireRemote.instance.load(path)
+    end
+end
+app_path = __FILE__
+$0 = File::basename(app_path, ".rb") if app_path
+require_relative "require/second" # Here it should be relative to main.rb. Note: I will upstream the fix for this.
 
-document = JS.global[:document]
-document.getElementById("spinner")[:style][:display] = "none"
-document.querySelector(".buttons")[:style][:display] = "block"
+JS.global.document.getElementById("spinner").style.display = "none"
+JS.global.document.querySelector(".buttons").style.display = "block"

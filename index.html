@@ -44,35 +44,44 @@
     <h1>Ruby.wasm Quickstart</h1>
     <div id="spinner" class="spinner"></div>
     <script type="text/ruby" data-eval="async">
-        require "/gems/setup"
+        require "/gems/setup"  # gems packed into ruby-app.wasm
+        require "jsg"          # friendly syntax: document.body instead of [:body]
         require 'kramdown'
-        # Read JS properties with [:name], call JS methods like Ruby methods.
-        $d = JS.global[:document]
+        $window = JS.global
+        $d = $window.document
 
-        $d.getElementById("spinner")[:style][:display] = "none"
+        $d.getElementById("spinner").style.display = "none"
 
-        # Small helper: create an element, set properties, append it to a parent.
-        def add_element(parent, tag, **props)
-            element = $d.createElement(tag)
-            props.each { |name, value| element[name] = value }
-            parent.appendChild(element)
-            element
-        end
+        $d.createElement("h2").tap {|e|
+            e.innerText = "Examples"
+            $d.body.appendChild(e)
+        }
 
-        add_element($d[:body], "h2", innerText: "Examples")
-
-        examplesDiv = add_element($d[:body], "div", className: "examples")
+        examplesDiv = $d.createElement("div").tap {|div|
+            div.classList.add("examples")
+            $d.body.appendChild(div)
+        }
         examples = %w(run-code shoppingList require canvas heartbeat kramdown)
         examples.each do |example|
-            add_element(examplesDiv, "a", href: "#{example}.html", innerText: example)
+            $d.createElement("a").tap {|link|
+                link.href = "#{example}.html"
+                link.innerText = example
+                examplesDiv.appendChild(link)    
+            }
+        end
+       
+        readmeUrl = "README.md"
+        response = JS.global.fetch(readmeUrl).await
+        if response.status.to_i == 200
+            readmeMarkdown = response.text.await.to_s
         end
 
-        response = JS.global.fetch("README.md").await
-        if response[:status].to_i == 200
-            readmeMarkdown = response.text.await.to_s
-            add_element($d[:body], "div",
-                        className: "explanation",
-                        innerHTML: Kramdown::Document.new(readmeMarkdown).to_html)
+        if readmeMarkdown
+            $d.createElement("div").tap {|e|
+                e.classList.add("explanation")
+                e.innerHTML = Kramdown::Document.new(readmeMarkdown).to_html
+                $d.body.appendChild(e)
+            }
         end
     </script>
 </body>

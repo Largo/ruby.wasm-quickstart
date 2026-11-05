@@ -6,3 +6,4 @@ ruby+stdlib.wasm
 wasm-gems/bundle/
 .bundle/
 wasm-gems/.bundle/
+wasm-gems/vendor/

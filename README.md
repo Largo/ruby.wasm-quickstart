@@ -38,27 +38,34 @@ No C compiler, Rust or wasi-sdk needed - only Ruby, Bundler and curl. Works on L
 
 Gems with C extensions need a full `rbwasm build` instead (Linux/macOS, see the ruby.wasm docs).
 
-## Writing Ruby for the browser (js gem 2.10)
+## Writing Ruby for the browser (jsg)
+
+The demos use [jsg](https://github.com/Largo/jsg), which is packed into `ruby-app.wasm`.
+It lets you write JavaScript properties like Ruby attributes and converts values to Ruby:
 
 ```ruby
-document = JS.global[:document]            # read a JS property with [:name]
-div = document.createElement("div")        # call a JS method like a Ruby method
-div[:innerText] = "Hello from Ruby"        # write a JS property with [:name] =
-document[:body].appendChild(div)
+require "/gems/setup"
+require "jsg"
 
-width = canvas[:width].to_i                # JS values are JS::Object: convert with
-name  = input[:value].to_s                 # .to_i / .to_f / .to_s
-done  = checkbox[:checked] == JS::True     # booleans: compare with JS::True
+document = JS.global.document              # properties read like methods
+div = document.createElement("div")
+div.innerText = "Hello from Ruby"          # and are set like attributes
+document.body.appendChild(div)
 
-button.addEventListener("click") { |event| puts event[:type] }
-response = JS.global.fetch("README.md").await   # await needs <script data-eval="async">
+canvas.width / 2                           # JS numbers come back as Float
+input.value.strip                          # JS strings as String
+checkbox.checked                           # true / false
+element.hidden?                            # JavaScript truthiness as true / false
+JS.global.fetch("README.md").await         # await needs <script data-eval="async">
 ```
 
-Calling a property like a method (`JS.global.document`) raises a `TypeError` in js 2.10 - use `[:document]`.
+Without jsg, the plain js gem 2.10 needs `JS.global[:document]`, `div[:innerText] = ...`
+and explicit `.to_i` / `.to_s` conversions.
 
 ## Notices
 - `browser.script.iife.js` is the official loader from `@ruby/4.0-wasm-wasi` 2.10.1, changed in one place: it loads `ruby-app.wasm` instead of the CDN build. Use another file with `<script src="browser.script.iife.js" data-wasm="other.wasm">`.
-- To load Ruby files over the network, `require "js/require_remote/relative_shim"` and use `require_relative` (see [require/main.rb](require/main.rb)).
+- jsg is unpacked into `wasm-gems/vendor` by `build.sh` instead of going through the Gemfile, because its gemspec depends on `ruby_wasm` (for the `jsg` command), which must not end up in the browser.
+- To load Ruby files over the network, see [require/main.rb](require/main.rb). The js gem now also ships `require "js/require_remote/relative_shim"`.
 
 ## Todo
 - [x] explain how to add  code outside gems to the image

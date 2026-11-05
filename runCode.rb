@@ -1,25 +1,40 @@
-document = JS.global[:document]
-code_area = document.getElementById("ruby-code")
-@editor = JS.global[:CodeMirror].fromTextArea(code_area, {
+require "/gems/setup"
+require "jsg"
+
+code_area = JS.global.document.getElementById("ruby-code")
+@window = JS.global
+@window.editor = @window[:CodeMirror].fromTextArea(code_area, {
   lineNumbers: true,
   mode: "text/x-ruby",
   matchBrackets: true,
   indentUnit: 4
 })
 
-document.getElementById("spinner")[:style][:display] = "none"
+JS.global.document.getElementById("spinner").style.display = "none"
 
-def run_code
-  @editor.save
-  code = JS.global[:document].getElementById("ruby-code")[:value].to_s
-  output_div = JS.global[:document].getElementById("output")
+define_method :click_run_button do
+  code_area = JS.global.document.getElementById("ruby-code")
+  @window.editor.save
+  output_div = JS.global.document.getElementById("output")
+  code = <<-RUBY
+    #{code_area.value}
+  RUBY
 
   begin
-    output_div[:innerText] = Kernel.eval(code).inspect
-  rescue Exception => e
-    output_div[:innerText] = "#{e.class}: #{e.message}"
+    output_div.innerHTML = Kernel.eval(code.strip)
+  rescue => e
+    output_div.innerHTML = e.to_s
   end
 end
 
-# Run the code when the button is clicked
-document.getElementById("run-code").addEventListener("click") { run_code }
+# check_interval = JS.global.setInterval(lambda {
+#   if @window.rubyVM != undefined
+#     JS.global.clearInterval(check_interval)
+#     click_run_button
+#   end
+# }, 500)
+
+# Set up the event listener for the run code button
+JS.global.document.getElementById("run-code").addEventListener("click") do |e|
+  click_run_button
+end

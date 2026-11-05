@@ -20,7 +20,16 @@ bundle install
 # 3. Browser gems into wasm-gems/bundle (creates bundle/bundler/setup.rb).
 BUNDLE_GEMFILE=wasm-gems/Gemfile bundle install --standalone
 
-# 4. Pack wasm-gems/ into the module at /gems (/bundle is used by the base build).
+# 4. jsg (friendly JS syntax: document.title instead of JS.global[:document][:title]).
+#    Its gemspec depends on ruby_wasm and js for the jsg CLI, which the browser
+#    does not need, so only the gem itself is unpacked into wasm-gems/vendor.
+JSG_VERSION=0.2.1
+if [ ! -d "wasm-gems/vendor/jsg-${JSG_VERSION}" ]; then
+  mkdir -p wasm-gems/vendor
+  (cd wasm-gems/vendor && gem fetch jsg -v "$JSG_VERSION" && gem unpack "jsg-${JSG_VERSION}.gem" && rm "jsg-${JSG_VERSION}.gem")
+fi
+
+# 5. Pack wasm-gems/ into the module at /gems (/bundle is used by the base build).
 #    Ruby code loads the gems with: require "/gems/setup"
 bundle exec rbwasm pack "$BASE" --dir ./wasm-gems::/gems -o ruby-app.wasm
 

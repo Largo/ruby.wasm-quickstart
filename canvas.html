@@ -26,20 +26,22 @@
     </style>
     <script type="text/ruby">
         require 'js'
+        require "/gems/setup"
+        require "jsg"
         # Create a canvas element
         window = JS.global
-        document = window[:document]
-        document.getElementById("spinner")[:style][:display] = "none"
+        document = window.document
+        document.getElementById("spinner").style.display = "none"
 
 
         canvas = document.createElement("canvas")
 
-        # Set canvas size (JS properties are read and written with [:name])
-        canvas[:width] = 400
-        canvas[:height] = 300
+        # Set canvas size
+        canvas.width = 400
+        canvas.height = 300
 
         # Append the canvas to the document body
-        document[:body].appendChild(canvas)
+        document.body.appendChild(canvas)
 
         # Get the 2D drawing context of the canvas
         context = canvas.getContext("2d")
@@ -48,14 +50,14 @@
             # Draw a yellow circle for the face
             context.beginPath()
             context.arc(200, 150, 100, 0, 2 * Math::PI)
-            context[:fillStyle] = "yellow"
+            context.fillStyle = "yellow"
             context.fill()
 
             # Draw the eyes
             context.beginPath()
             context.arc(150, 100, 15, 0, 2 * Math::PI)
             context.arc(250, 100, 15, 0, 2 * Math::PI)
-            context[:fillStyle] = "black"
+            context.fillStyle = "black"
             context.fill()
         end
 
@@ -66,8 +68,8 @@
             # Draw the frown
             context.beginPath()
             context.arc(200, 180, 60, Math::PI, 2 * Math::PI)
-            context[:lineWidth] = 5
-            context[:strokeStyle] = "black"
+            context.lineWidth = 5
+            context.strokeStyle = "black"
             context.stroke()
         end
 
@@ -78,8 +80,8 @@
             # Draw the smile
             context.beginPath()
             context.arc(200, 180, 60, 0, Math::PI)
-            context[:lineWidth] = 5
-            context[:strokeStyle] = "black"
+            context.lineWidth = 5
+            context.strokeStyle = "black"
             context.stroke()
         end
 
@@ -88,12 +90,12 @@
 
         # Function to toggle smile/frown state and redraw
         def toggleSmile(context)
-            canvas = context[:canvas]
+            canvas = context.canvas
             if @smile
-                context.clearRect(0, 0, canvas[:width], canvas[:height])
+                context.clearRect(0, 0, canvas.width, canvas.height)
                 drawFrown(context)
             else
-                context.clearRect(0, 0, canvas[:width], canvas[:height])
+                context.clearRect(0, 0, canvas.width, canvas.height)
                 drawSmile(context)
             end
             @smile = !@smile
