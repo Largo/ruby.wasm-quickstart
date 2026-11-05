@@ -1,3 +1,0 @@
-[submodule "ruby.wasm"]
-	path = ruby.wasm
-	url = https://github.com/Largo/ruby.wasm.git

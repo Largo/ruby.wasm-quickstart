@@ -29,28 +29,29 @@
 
         # Create a canvas element
         window = JS.global
-        document = window.document
+        document = window[:document]
         canvas = document.createElement("canvas")
 
-        # Set canvas size
-        canvas.width = 800
-        canvas.height = 200
+        # Set canvas size (JS properties are read and written with [:name])
+        canvas[:width] = 800
+        canvas[:height] = 200
 
         # Append the canvas to the document body
-        document.body.appendChild(canvas)
+        document[:body].appendChild(canvas)
 
         # Get the 2D drawing context of the canvas
         ctx = canvas.getContext("2d")
 
-        # Initialize parameters for the heartbeat line
+        # Initialize parameters for the heartbeat line.
+        # JS numbers come back as JS::Object; .to_i turns them into Ruby Integers.
+        @width = canvas[:width].to_i
+        @height = canvas[:height].to_i / 2
         @x = 0
-        @height = canvas.height / 2
         @step = 4 # Change in x, speed of the line
 
         def draw_heartbeat(ctx)
-          canvas = ctx.canvas
-          if @x >= canvas.width
-            ctx.clearRect(0, 0, canvas.width, canvas.height)
+          if @x >= @width
+            ctx.clearRect(0, 0, @width, @height * 2)
             @x = 0
           end
 
@@ -68,7 +69,7 @@
           end
 
           ctx.lineTo(@x, @height) # Back to baseline
-          ctx.strokeStyle = "red"
+          ctx[:strokeStyle] = "red"
           ctx.stroke()
         end
 

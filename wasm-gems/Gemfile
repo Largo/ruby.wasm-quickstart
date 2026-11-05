@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+# Gems that run inside the browser. build.sh installs them into
+# wasm-gems/bundle and packs this folder into ruby-app.wasm at /gems.
+# Load them in your Ruby code with:  require "/gems/setup"
+# Pure-Ruby gems only (gems with C extensions need a full rbwasm build).
+source "https://rubygems.org"
+
+gem "kramdown", "~> 2.5"

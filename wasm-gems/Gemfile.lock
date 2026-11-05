@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    kramdown (2.5.2)
+      rexml (>= 3.4.4)
+    rexml (3.4.4)
+
+PLATFORMS
+  x64-mingw-ucrt
+
+DEPENDENCIES
+  kramdown (~> 2.5)
+
+CHECKSUMS
+  kramdown (2.5.2) sha256=1ba542204c66b6f9111ff00dcc26075b95b220b07f2905d8261740c82f7f02fa
+  rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
+
+BUNDLED WITH
+  4.0.23

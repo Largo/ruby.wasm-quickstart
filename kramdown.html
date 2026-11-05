@@ -26,9 +26,11 @@
     </style>
     <script type="text/ruby">
         require 'js'
+        require "/gems/setup"
         require 'kramdown'
 
-        div = JS.global.document.createElement("div")
+        document = JS.global[:document]
+        div = document.createElement("div")
         text = <<MARKDOWN
 # This is markdown
 This is parsed markdown
@@ -36,9 +38,9 @@ This is parsed markdown
 ## Second heading
 MARKDOWN
 
-        div.innerHTML = Kramdown::Document.new(text).to_html
-        JS.global.document.getElementById("spinner").style.display = "none"
-        JS.global.document.body.appendChild(div)
+        div[:innerHTML] = Kramdown::Document.new(text).to_html
+        document.getElementById("spinner")[:style][:display] = "none"
+        document[:body].appendChild(div)
   </script>
     </head>
     <body class="main">

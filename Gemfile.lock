@@ -1,28 +1,35 @@
-PATH
-  remote: ruby.wasm/packages/gems/js
-  specs:
-    js (2.5.0)
-
-PATH
-  remote: ruby.wasm
-  specs:
-    ruby_wasm (2.5.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    kramdown (2.4.0)
-      rexml
-    rexml (3.2.6)
+    logger (1.7.0)
+    ruby_wasm (2.10.1-aarch64-linux)
+      logger
+    ruby_wasm (2.10.1-arm64-darwin)
+      logger
+    ruby_wasm (2.10.1-x64-mingw-ucrt)
+      logger
+    ruby_wasm (2.10.1-x86_64-darwin)
+      logger
+    ruby_wasm (2.10.1-x86_64-linux)
+      logger
 
 PLATFORMS
-  ruby
+  aarch64-linux
+  arm64-darwin
+  x64-mingw-ucrt
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
-  js!
-  kramdown (~> 2.4)
-  ruby_wasm!
+  ruby_wasm (~> 2.10)
+
+CHECKSUMS
+  logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
+  ruby_wasm (2.10.1-aarch64-linux) sha256=133ab6ad86ff2942a4dd187ae2af87a42bbb31b42fd1ac82f738cbf658649c17
+  ruby_wasm (2.10.1-arm64-darwin) sha256=f106a9b4d8b273592471005460f8c54d89a8913e4fecb9dbab3bd3fc8c20bbc6
+  ruby_wasm (2.10.1-x64-mingw-ucrt) sha256=19be25d39bb980020106ed9bc5c5510e263bf65f4a9e6bdd2e20e27ec492375e
+  ruby_wasm (2.10.1-x86_64-darwin) sha256=40291bed5b48c858317a31437e59d56091edda2f2c498b532238eda4cbf044d4
+  ruby_wasm (2.10.1-x86_64-linux) sha256=728e29dc688246572b56dcef1c7b131431d07865320c9b8434dd1ccdfd63db2b
 
 BUNDLED WITH
-   2.5.5
+  4.0.23
